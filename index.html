@@ -69,8 +69,10 @@ header.topbar{
 }
 .topbar-inner{
   max-width:1280px; margin:0 auto; padding:14px 24px;
-  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  display:flex; flex-direction:column; gap:10px;
 }
+.topbar-brand-row{display:flex; align-items:center; justify-content:center;}
+.topbar-main-row{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
 .brand{display:flex; align-items:center; gap:10px;}
 .brand .logo-mark{
   width:42px; height:42px; border-radius:50%;
@@ -86,7 +88,7 @@ header.topbar{
 .brand-text .en{font-family:var(--display); font-size:21px; color:var(--burgundy); letter-spacing:.3px;}
 .brand-text .ta{font-family:var(--tamil); font-size:12px; color:var(--rose-gold); font-weight:600;}
 
-nav.main-nav{display:flex; align-items:center; gap:4px; flex-wrap:wrap;}
+nav.main-nav{display:flex; align-items:center; gap:4px; flex-wrap:wrap; justify-content:center; flex:1;}
 nav.main-nav button.nav-link{
   background:none; border:none; padding:9px 14px; border-radius:999px;
   font-size:14.5px; font-weight:500; color:var(--ink-soft); display:flex; align-items:center; gap:6px;
@@ -95,6 +97,10 @@ nav.main-nav button.nav-link{
 nav.main-nav button.nav-link:hover{background:var(--pearl-dim); color:var(--burgundy);}
 nav.main-nav button.nav-link.active{background:var(--burgundy); color:#fff; box-shadow:0 4px 10px rgba(128,0,32,.25);}
 nav.main-nav .lock-badge{font-size:11px; background:var(--gold-soft); color:var(--burgundy-dark); padding:1px 6px; border-radius:8px;}
+.admin-mode-badge{
+  font-size:12px; font-weight:700; color:var(--burgundy); background:var(--gold-soft);
+  padding:6px 14px; border-radius:999px; letter-spacing:.3px;
+}
 
 .header-actions{display:flex; align-items:center; gap:10px;}
 .btn{
@@ -387,30 +393,34 @@ footer.site-footer .ta{font-family:var(--tamil); color:var(--rose-gold); margin-
 <!-- ============ HEADER ============ -->
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">
-      <div class="logo-mark"></div>
-      <div class="brand-text">
-        <span class="en">Idhayam Matrimonial</span>
-        <span class="ta">இதயம் மேட்ரிமோனியல்</span>
+    <div class="topbar-brand-row">
+      <div class="brand">
+        <div class="logo-mark"></div>
+        <div class="brand-text">
+          <span class="en">Idhayam Matrimonial</span>
+          <span class="ta">இதயம் மேட்ரிமோனியல்</span>
+        </div>
       </div>
     </div>
 
-    <nav class="main-nav" id="mainNav">
-      <button class="nav-link" data-page="matches">💞 Home / Matches</button>
-      <button class="nav-link" data-page="newmatches">✨ New Matches</button>
-      <button class="nav-link" data-page="shortlisted">⭐ Shortlisted</button>
-      <button class="nav-link" data-page="messages">💬 Messages <span class="lock-badge">🔒 Paid</span></button>
-      <button class="nav-link" data-page="photorequests">📷 Photo Requests</button>
-    </nav>
+    <div class="topbar-main-row">
+      <nav class="main-nav" id="mainNav">
+        <button class="nav-link" data-page="matches">Home / Matches</button>
+        <button class="nav-link" data-page="newmatches">New Matches</button>
+        <button class="nav-link" data-page="shortlisted">Shortlisted</button>
+        <button class="nav-link" data-page="messages">Messages <span class="lock-badge">Paid</span></button>
+        <button class="nav-link" data-page="photorequests">Photo Requests</button>
+      </nav>
 
-    <div class="header-actions">
-      <div id="loggedOutActions" class="btn-row">
-        <button class="btn admin-link" id="adminLoginBtn" style="background:none;">Admin Login</button>
-        <button class="btn btn-outline btn-sm" id="openLoginBtn">Login</button>
-        <button class="btn btn-primary btn-sm" id="openRegisterBtn">Register Free</button>
+      <div class="header-actions">
+        <div id="loggedOutActions" class="btn-row">
+          <button class="btn admin-link" id="adminLoginBtn" style="background:none;">Admin Login</button>
+          <button class="btn btn-outline btn-sm" id="openLoginBtn">Login</button>
+          <button class="btn btn-primary btn-sm" id="openRegisterBtn">Register Free</button>
+        </div>
+        <div id="loggedInActions" class="btn-row" style="display:none;"></div>
+        <button class="mobile-toggle" id="mobileToggle">☰</button>
       </div>
-      <div id="loggedInActions" class="btn-row" style="display:none;"></div>
-      <button class="mobile-toggle" id="mobileToggle">☰</button>
     </div>
   </div>
 </header>
@@ -450,6 +460,7 @@ footer.site-footer .ta{font-family:var(--tamil); color:var(--rose-gold); margin-
       <select id="fGender"><option value="">Looking for</option><option value="Female">Bride (Female)</option><option value="Male">Groom (Male)</option></select>
       <select id="fReligion"><option value="">Any Religion</option></select>
       <select id="fCaste"><option value="">Any Caste</option></select>
+      <select id="fState"><option value="">Any State</option></select>
       <select id="fDistrict"><option value="">Any District</option></select>
       <input type="number" id="fAgeMin" placeholder="Age from" min="18" max="70">
       <input type="number" id="fAgeMax" placeholder="Age to" min="18" max="70">
@@ -544,15 +555,15 @@ footer.site-footer .ta{font-family:var(--tamil); color:var(--rose-gold); margin-
 
       <!-- LOGIN FORM -->
       <div id="loginForm">
-        <div class="field-note" style="margin-bottom:14px;">Login with your registered Email or Profile ID.</div>
+        <div class="field-note" style="margin-bottom:14px;">Login using your registered Mobile Number, Email Address, or Profile ID.</div>
         <div class="form-row single">
-          <div class="field"><label>Email or Profile ID <span class="req">*</span></label><input id="loginEmail" placeholder="e.g. priya@email.com or IDH-1024"></div>
+          <div class="field"><label>Mobile / Email / Profile ID <span class="req">*</span></label><input id="loginEmail" placeholder="e.g. 9876543210, priya@email.com or IDH-1024"></div>
         </div>
         <div class="form-row single">
-          <div class="field"><label>Password <span class="req">*</span></label><input type="password" id="loginPassword" placeholder="Any password (demo mode)"></div>
+          <div class="field"><label>Password <span class="req">*</span></label><input type="password" id="loginPassword" placeholder="Enter your password"></div>
         </div>
         <button class="btn btn-primary btn-block" id="doLoginBtn">Login to my Account</button>
-        <div class="field-note" style="text-align:center; margin-top:12px;">Demo tip: try sample profile IDs like <b>IDH-1001</b> (any password works).</div>
+        <div class="field-note" style="text-align:center; margin-top:12px;">Demo tip: try sample profile ID <b>IDH-1001</b> with password <b>demo1234</b>.</div>
       </div>
 
       <!-- REGISTER FORM -->
@@ -574,6 +585,15 @@ footer.site-footer .ta{font-family:var(--tamil); color:var(--rose-gold); margin-
           <div class="form-row single">
             <div class="field"><label>Religion <span class="req">*</span></label><select required name="religion"><option value="">Select</option><option>Hindu</option><option>Christian</option><option>Muslim</option><option>Other</option></select></div>
           </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Set Your Login Password</legend>
+          <div class="form-row">
+            <div class="field"><label>New Password <span class="req">*</span></label><input required type="password" id="regPassword" name="regPassword" placeholder="Minimum 4 characters" minlength="4"></div>
+            <div class="field"><label>Confirm Password <span class="req">*</span></label><input required type="password" id="regPasswordConfirm" placeholder="Re-enter password" minlength="4"></div>
+          </div>
+          <div class="field-note" id="regPasswordNote">You'll use this password to login with your Mobile, Email or Profile ID.</div>
         </fieldset>
 
         <fieldset>
@@ -614,7 +634,10 @@ footer.site-footer .ta{font-family:var(--tamil); color:var(--rose-gold); margin-
         <fieldset>
           <legend>Lifestyle &amp; Location (optional)</legend>
           <div class="form-row">
+            <div class="field"><label>State</label><select name="state" class="state-select"><option value="">Select State</option></select></div>
             <div class="field"><label>District / City</label><input name="district" placeholder="e.g. Coimbatore"></div>
+          </div>
+          <div class="form-row">
             <div class="field"><label>Education</label><input name="education" placeholder="e.g. B.E Computer Science"></div>
           </div>
           <div class="form-row">
@@ -639,6 +662,145 @@ footer.site-footer .ta{font-family:var(--tamil); color:var(--rose-gold); margin-
 
         <button type="submit" class="btn btn-primary btn-block">Create My Free Profile</button>
         <div class="field-note" style="text-align:center; margin-top:10px;">You'll receive a unique Profile ID instantly, e.g. IDH-1024.</div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: REGISTRATION SUCCESS ============ -->
+<div class="overlay" id="regSuccessOverlay">
+  <div class="modal" style="max-width:440px; text-align:center;">
+    <div class="modal-body" style="padding-top:34px;">
+      <div style="width:66px; height:66px; border-radius:50%; background:linear-gradient(135deg,var(--gold),#dfc17a); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:30px; box-shadow:0 8px 22px rgba(201,162,75,.4);">✓</div>
+      <h3 style="color:var(--burgundy); font-size:22px; margin-bottom:8px;">Profile Created Successfully!</h3>
+      <p style="font-size:14px; color:var(--ink-soft); line-height:1.6; margin-bottom:6px;">Your unique Profile ID is</p>
+      <div id="regSuccessId" style="font-family:var(--display); font-size:26px; color:var(--rose-gold); font-weight:700; margin-bottom:14px;">IDH-0000</div>
+      <p style="font-size:13.5px; color:var(--ink-soft); margin-bottom:20px;">Please login with your Mobile Number, Email, or Profile ID to continue.</p>
+      <button class="btn btn-primary btn-block" id="regSuccessContinueBtn">Continue to Login</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: EDIT PROFILE & PRIVACY SETTINGS ============ -->
+<div class="overlay" id="editProfileOverlay">
+  <div class="modal wide">
+    <div class="modal-head"><h3>Edit Profile &amp; Privacy Settings</h3><button class="modal-close" data-close="editProfileOverlay">✕</button></div>
+    <div class="modal-body">
+      <form id="editProfileForm">
+        <fieldset>
+          <legend>Mandatory Details</legend>
+          <div class="form-row">
+            <div class="field"><label>Full Name <span class="req">*</span></label><input required name="name"></div>
+            <div class="field"><label>Gender <span class="req">*</span></label><select required name="gender"><option>Female</option><option>Male</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Age <span class="req">*</span></label><input required type="number" min="18" max="70" name="age"></div>
+            <div class="field"><label>Marital Status <span class="req">*</span></label><select required name="maritalStatus"><option>Never Married</option><option>Divorced</option><option>Widowed</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Email <span class="req">*</span></label><input required type="email" name="email"></div>
+            <div class="field"><label>Mobile Number <span class="req">*</span></label><input required type="tel" name="mobile"></div>
+          </div>
+          <div class="form-row single">
+            <div class="field"><label>Religion <span class="req">*</span></label><select required name="religion"><option>Hindu</option><option>Christian</option><option>Muslim</option><option>Other</option></select></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Basic &amp; Physical</legend>
+          <div class="form-row">
+            <div class="field"><label>Height</label><input name="height"></div>
+            <div class="field"><label>Weight</label><input name="weight"></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Body Type</label><select name="bodyType"><option value="">Select</option><option>Slim</option><option>Average</option><option>Athletic</option><option>Heavy</option></select></div>
+            <div class="field"><label>Complexion</label><select name="complexion"><option value="">Select</option><option>Fair</option><option>Wheatish</option><option>Dusky</option><option>Dark</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Mother Tongue</label><input name="motherTongue"></div>
+            <div class="field"><label>Caste</label><input name="caste"></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Sub-Caste</label><input name="subCaste"></div>
+            <div class="field"><label>Gothram</label><input name="gothram"></div>
+          </div>
+          <div class="form-row single">
+            <div class="field"><label>Physical Disability Status</label><select name="disability"><option value="Not Specified">Not Specified</option><option>None</option><option>Yes</option></select></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Horoscope Details</legend>
+          <div class="form-row">
+            <div class="field"><label>Rasi</label><input name="rasi"></div>
+            <div class="field"><label>Nakshatram</label><input name="nakshatram"></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Lagnam</label><input name="lagnam"></div>
+            <div class="field"><label>Sevvai Dosham</label><select name="sevvaiDosham"><option>Unknown</option><option>Yes</option><option>No</option></select></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Lifestyle &amp; Location</legend>
+          <div class="form-row">
+            <div class="field"><label>State</label><select name="state" class="state-select"><option value="">Select State</option></select></div>
+            <div class="field"><label>District / City</label><input name="district"></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Education</label><input name="education"></div>
+            <div class="field"><label>Occupation</label><input name="occupation"></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Annual Income</label><input name="income"></div>
+            <div class="field"><label>Eating Habits</label><select name="eating"><option value="">Select</option><option>Vegetarian</option><option>Non-Vegetarian</option><option>Eggetarian</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>Drinking Habits</label><select name="drinking"><option value="">Select</option><option>No</option><option>Occasionally</option><option>Yes</option></select></div>
+            <div class="field"><label>Smoking Habits</label><select name="smoking"><option value="">Select</option><option>No</option><option>Occasionally</option><option>Yes</option></select></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Photo Privacy</legend>
+          <label style="display:flex; align-items:center; gap:10px; font-size:13.5px; font-weight:600; color:var(--burgundy); cursor:pointer; padding:6px 0;">
+            <input type="checkbox" name="photoPrivate" style="width:18px; height:18px;"> Hide My Photo / Make Private
+          </label>
+          <div class="field-note">When private, other members see a default avatar and must send a Photo Access Request to view your photo.</div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: ADMIN FULL EDIT PROFILE ============ -->
+<div class="overlay" id="adminEditOverlay">
+  <div class="modal">
+    <div class="modal-head"><h3>Full Edit Profile <span style="color:var(--ink-soft); font-size:13px; font-weight:400;" id="adminEditModalId"></span></h3><button class="modal-close" data-close="adminEditOverlay">✕</button></div>
+    <div class="modal-body">
+      <div class="field-note" style="margin-bottom:14px;">As Super-Admin, you can override any critical profile detail on the member's behalf — e.g. to correct an age or contact number upon request.</div>
+      <form id="adminEditForm">
+        <div class="form-row single">
+          <div class="field"><label>Full Name <span class="req">*</span></label><input required name="name"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Age <span class="req">*</span></label><input required type="number" min="18" max="70" name="age"></div>
+          <div class="field"><label>Gender <span class="req">*</span></label><select required name="gender"><option>Female</option><option>Male</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Email <span class="req">*</span></label><input required type="email" name="email"></div>
+          <div class="field"><label>Mobile Number <span class="req">*</span></label><input required type="tel" name="mobile"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Religion</label><select name="religion"><option>Hindu</option><option>Christian</option><option>Muslim</option><option>Other</option></select></div>
+          <div class="field"><label>Caste</label><input name="caste"></div>
+        </div>
+        <div class="form-row single">
+          <div class="field"><label>Marital Status</label><select name="maritalStatus"><option>Never Married</option><option>Divorced</option><option>Widowed</option></select></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Save Admin Changes</button>
       </form>
     </div>
   </div>
@@ -744,53 +906,69 @@ const SEED_PROFILES = [
   {id:'IDH-1001', name:'Priya Ramesh', gender:'Female', age:26, email:'priya.ramesh@gmail.com', mobile:'9876543210',
    maritalStatus:'Never Married', religion:'Hindu', height:"5'4\"", weight:'54 kg', bodyType:'Slim', complexion:'Fair',
    motherTongue:'Tamil', caste:'Iyer', subCaste:'Vadama', gothram:'Bharadwaja', disability:'Not Specified',
-   rasi:'Simmam', nakshatram:'Pooram', lagnam:'Mesham', sevvaiDosham:'No', district:'Chennai',
+   rasi:'Simmam', nakshatram:'Pooram', lagnam:'Mesham', sevvaiDosham:'No', state:'Tamil Nadu', district:'Chennai',
    education:'M.Sc Computer Science', occupation:'Software Engineer', income:'₹9 LPA', eating:'Vegetarian',
    drinking:'No', smoking:'No', createdBy:'Self', verified:true, photoPrivate:false, joined:daysAgo(2)},
   {id:'IDH-1002', name:'Karthik Subramaniam', gender:'Male', age:29, email:'karthik.s@gmail.com', mobile:'9123456780',
    maritalStatus:'Never Married', religion:'Hindu', height:"5'10\"", weight:'72 kg', bodyType:'Athletic', complexion:'Wheatish',
    motherTongue:'Tamil', caste:'Mudaliar', subCaste:'-', gothram:'Kashyapa', disability:'Not Specified',
-   rasi:'Rishabam', nakshatram:'Rohini', lagnam:'Simmam', sevvaiDosham:'Yes', district:'Coimbatore',
+   rasi:'Rishabam', nakshatram:'Rohini', lagnam:'Simmam', sevvaiDosham:'Yes', state:'Tamil Nadu', district:'Coimbatore',
    education:'B.E Mechanical', occupation:'Manufacturing Manager', income:'₹12 LPA', eating:'Non-Vegetarian',
    drinking:'Occasionally', smoking:'No', createdBy:'Parent', verified:true, photoPrivate:false, joined:daysAgo(1)},
   {id:'IDH-1003', name:'Meenakshi Sundaram', gender:'Female', age:24, email:'meena.sundar@gmail.com', mobile:'9988776655',
    maritalStatus:'Never Married', religion:'Hindu', height:"5'2\"", weight:'50 kg', bodyType:'Slim', complexion:'Dusky',
    motherTongue:'Tamil', caste:'Nadar', subCaste:'-', gothram:'Not Specified', disability:'Not Specified',
-   rasi:'Kanni', nakshatram:'Hastham', lagnam:'Thulam', sevvaiDosham:'Unknown', district:'Madurai',
+   rasi:'Kanni', nakshatram:'Hastham', lagnam:'Thulam', sevvaiDosham:'Unknown', state:'Tamil Nadu', district:'Madurai',
    education:'B.Tech IT', occupation:'Bank Officer', income:'₹6 LPA', eating:'Vegetarian',
    drinking:'No', smoking:'No', createdBy:'Self', verified:false, photoPrivate:true, joined:daysAgo(5)},
   {id:'IDH-1004', name:'Arun Prakash', gender:'Male', age:31, email:'arun.prakash@gmail.com', mobile:'9765432109',
    maritalStatus:'Divorced', religion:'Hindu', height:"5'8\"", weight:'75 kg', bodyType:'Average', complexion:'Fair',
    motherTongue:'Tamil', caste:'Chettiar', subCaste:'Nagarathar', gothram:'-', disability:'None',
-   rasi:'Mesham', nakshatram:'Ashwini', lagnam:'Kadagam', sevvaiDosham:'No', district:'Salem',
+   rasi:'Mesham', nakshatram:'Ashwini', lagnam:'Kadagam', sevvaiDosham:'No', state:'Tamil Nadu', district:'Salem',
    education:'MBA Finance', occupation:'Business Owner', income:'₹18 LPA', eating:'Non-Vegetarian',
    drinking:'Yes', smoking:'Occasionally', createdBy:'Self', verified:true, photoPrivate:false, joined:daysAgo(9)},
   {id:'IDH-1005', name:'Divya Lakshmi', gender:'Female', age:27, email:'divya.lakshmi@gmail.com', mobile:'9345678123',
    maritalStatus:'Never Married', religion:'Christian', height:"5'5\"", weight:'56 kg', bodyType:'Average', complexion:'Wheatish',
    motherTongue:'Tamil', caste:'-', subCaste:'-', gothram:'-', disability:'Not Specified',
-   rasi:'-', nakshatram:'-', lagnam:'-', sevvaiDosham:'Unknown', district:'Trichy',
+   rasi:'-', nakshatram:'-', lagnam:'-', sevvaiDosham:'Unknown', state:'Puducherry', district:'Puducherry',
    education:'M.A English', occupation:'School Teacher', income:'₹4.5 LPA', eating:'Non-Vegetarian',
    drinking:'No', smoking:'No', createdBy:'Sibling', verified:true, photoPrivate:false, joined:daysAgo(1)},
   {id:'IDH-1006', name:'Mohammed Irfan', gender:'Male', age:28, email:'irfan.m@gmail.com', mobile:'9012345678',
    maritalStatus:'Never Married', religion:'Muslim', height:"5'9\"", weight:'70 kg', bodyType:'Athletic', complexion:'Dusky',
    motherTongue:'Urdu', caste:'-', subCaste:'-', gothram:'-', disability:'Not Specified',
-   rasi:'-', nakshatram:'-', lagnam:'-', sevvaiDosham:'Unknown', district:'Chennai',
+   rasi:'-', nakshatram:'-', lagnam:'-', sevvaiDosham:'Unknown', state:'Karnataka', district:'Bengaluru',
    education:'B.Com', occupation:'Chartered Accountant', income:'₹10 LPA', eating:'Non-Vegetarian',
    drinking:'No', smoking:'No', createdBy:'Self', verified:false, photoPrivate:false, joined:daysAgo(3)},
   {id:'IDH-1007', name:'Anitha Krishnan', gender:'Female', age:25, email:'anitha.k@gmail.com', mobile:'9223344556',
    maritalStatus:'Never Married', religion:'Hindu', height:"5'3\"", weight:'52 kg', bodyType:'Slim', complexion:'Fair',
    motherTongue:'Tamil', caste:'Pillai', subCaste:'-', gothram:'Vasishta', disability:'Not Specified',
-   rasi:'Meenam', nakshatram:'Revathi', lagnam:'Makaram', sevvaiDosham:'No', district:'Tirunelveli',
+   rasi:'Meenam', nakshatram:'Revathi', lagnam:'Makaram', sevvaiDosham:'No', state:'Kerala', district:'Kochi',
    education:'B.E Civil', occupation:'Site Engineer', income:'₹5.5 LPA', eating:'Vegetarian',
    drinking:'No', smoking:'No', createdBy:'Relative', verified:true, photoPrivate:true, joined:daysAgo(6)},
   {id:'IDH-1008', name:'Vignesh Raja', gender:'Male', age:30, email:'vignesh.raja@gmail.com', mobile:'9556677889',
    maritalStatus:'Never Married', religion:'Hindu', height:"5'11\"", weight:'78 kg', bodyType:'Heavy', complexion:'Wheatish',
    motherTongue:'Tamil', caste:'Gounder', subCaste:'-', gothram:'-', disability:'Not Specified',
-   rasi:'Dhanusu', nakshatram:'Moolam', lagnam:'Kumbam', sevvaiDosham:'Yes', district:'Erode',
-   education:'Diploma Mechanical', occupation:'Textile Business', income:'₹14 LPA', eating:'Non-Vegetarian',
+   rasi:'Dhanusu', nakshatram:'Moolam', lagnam:'Kumbam', sevvaiDosham:'Yes', state:'Selangor (Malaysia)', district:'Petaling Jaya',
+   education:'Diploma Mechanical', occupation:'Textile Business', income:'RM 96,000/yr', eating:'Non-Vegetarian',
    drinking:'Occasionally', smoking:'No', createdBy:'Friend', verified:false, photoPrivate:false, joined:daysAgo(4)}
 ];
 function daysAgo(n){const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString();}
+
+/* ---------- Fixed State List (for dropdowns spanning India & key NRI hubs) ---------- */
+const STATE_LIST = [
+  'Tamil Nadu','Puducherry','Kerala','Karnataka','Andhra Pradesh','Telangana',
+  'Maharashtra','Delhi NCR','Gujarat','West Bengal','Selangor (Malaysia)',
+  'Kuala Lumpur (Malaysia)','Singapore','Other'
+];
+function populateStateSelects(){
+  document.querySelectorAll('select.state-select').forEach(sel=>{
+    if(sel.dataset.populated) return;
+    STATE_LIST.forEach(s=>{
+      const o = document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o);
+    });
+    sel.dataset.populated = '1';
+  });
+}
 
 /* ---------- State ---------- */
 let allProfiles = [];
@@ -811,7 +989,7 @@ function savePhotoReq(list){ localStorage.setItem(LS.photoReq, JSON.stringify(li
 
 function initSeed(){
   if(!localStorage.getItem(LS.seeded)){
-    saveUsers(SEED_PROFILES.map(p=>({...p, plan:'Free', password:'demo'})));
+    saveUsers(SEED_PROFILES.map(p=>({...p, plan:'Free', password:'demo1234'})));
     localStorage.setItem(LS.seeded, '1');
   }
   allProfiles = loadUsers();
@@ -888,12 +1066,19 @@ document.getElementById('openRegisterBtn').addEventListener('click', ()=>{ openM
 
 /* ---------- Login ---------- */
 document.getElementById('doLoginBtn').addEventListener('click', ()=>{
-  const key = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const rawKey = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPassword').value;
-  if(!key || !pass){ toast('Enter your Email/ID and password.', 'error'); return; }
+  if(!rawKey || !pass){ toast('Enter your Mobile, Email or Profile ID and your password.', 'error'); return; }
+  const key = rawKey.toLowerCase();
+  const keyDigits = rawKey.replace(/\D/g,'');
   const users = loadUsers();
-  const found = users.find(u => u.email.toLowerCase()===key || u.id.toLowerCase()===key);
-  if(!found){ toast('No profile found with that Email/ID.', 'error'); return; }
+  const found = users.find(u =>
+    u.id.toLowerCase()===key ||
+    (u.email && u.email.toLowerCase()===key) ||
+    (keyDigits.length>=10 && u.mobile && String(u.mobile).replace(/\D/g,'')===keyDigits)
+  );
+  if(!found){ toast('No profile found with that Mobile, Email or Profile ID.', 'error'); return; }
+  if(found.password !== pass){ toast('Incorrect password. Please try again.', 'error'); return; }
   currentUser = found;
   localStorage.setItem(LS.current, currentUser.id);
   closeModal('authOverlay');
@@ -905,53 +1090,73 @@ document.getElementById('doLoginBtn').addEventListener('click', ()=>{
 /* ---------- Register ---------- */
 document.getElementById('registerForm').addEventListener('submit', (e)=>{
   e.preventDefault();
-  const fd = new FormData(e.target);
+  const form = e.target;
+  const pass = document.getElementById('regPassword').value;
+  const confirmPass = document.getElementById('regPasswordConfirm').value;
+  if(pass.length < 4){ toast('Password must be at least 4 characters.', 'error'); return; }
+  if(pass !== confirmPass){ toast('Passwords do not match. Please re-enter.', 'error'); return; }
+
+  const fd = new FormData(form);
   const users = loadUsers();
   const nextId = 'IDH-' + (1000 + users.length + Math.floor(Math.random()*90) + 1);
   const profile = {
-    id: nextId, plan:'Free', verified:false, photoPrivate:false, joined: new Date().toISOString(), password:'demo'
+    id: nextId, plan:'Free', verified:false, photoPrivate:false, joined: new Date().toISOString(), password: pass
   };
-  for(const [k,v] of fd.entries()) profile[k] = v;
+  for(const [k,v] of fd.entries()){
+    if(k==='regPassword') continue;
+    profile[k] = v;
+  }
   profile.age = parseInt(profile.age);
   if(!profile.disability) profile.disability = 'Not Specified';
   users.push(profile);
   saveUsers(users);
   allProfiles = users;
-  currentUser = profile;
-  localStorage.setItem(LS.current, profile.id);
+
+  form.reset();
   closeModal('authOverlay');
-  e.target.reset();
-  toast('Profile created! Your ID is ' + nextId, 'success');
-  refreshHeader();
-  showPage('matches');
+  document.getElementById('regSuccessId').textContent = nextId;
+  openModal('regSuccessOverlay');
+});
+document.getElementById('regSuccessContinueBtn').addEventListener('click', ()=>{
+  const newId = document.getElementById('regSuccessId').textContent;
+  closeModal('regSuccessOverlay');
+  openModal('authOverlay');
+  switchAuthTab('login');
+  document.getElementById('loginEmail').value = newId;
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('loginPassword').focus();
 });
 
 /* ---------- Header refresh (login state) ---------- */
 function refreshHeader(){
   const out = document.getElementById('loggedOutActions');
   const inEl = document.getElementById('loggedInActions');
+  const heroBtn = document.getElementById('heroRegisterBtn');
   if(currentUser){
     out.style.display='none'; inEl.style.display='flex';
+    if(heroBtn) heroBtn.style.display='none';
     inEl.innerHTML = `
-      <div class="user-chip">
+      <button class="user-chip" id="myProfileBtn" style="border:1px solid var(--gold-soft); cursor:pointer;">
         <div class="avatar-mini">${currentUser.name.split(' ').map(w=>w[0]).slice(0,2).join('')}</div>
         <div>
-          <div style="font-size:12.5px; font-weight:600; color:var(--burgundy);">${currentUser.name.split(' ')[0]}</div>
+          <div style="font-size:12.5px; font-weight:600; color:var(--burgundy); text-align:left;">${currentUser.name.split(' ')[0]}</div>
           <div class="id">${currentUser.id} <span class="plan-tag plan-${currentUser.plan}">${currentUser.plan}</span></div>
         </div>
-      </div>
-      <button class="btn btn-outline btn-sm" id="photoPrivacyBtn">📷 Privacy</button>
+      </button>
+      <button class="btn btn-outline btn-sm" id="photoPrivacyBtn">Privacy</button>
       <button class="btn btn-gold btn-sm" id="upgradeBtn">Upgrade</button>
       <button class="btn btn-ghost btn-sm" id="logoutBtn">Logout</button>
     `;
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
     document.getElementById('upgradeBtn').addEventListener('click', ()=>openModal('plansOverlay'));
+    document.getElementById('myProfileBtn').addEventListener('click', ()=>openFullProfile(currentUser.id));
     document.getElementById('photoPrivacyBtn').addEventListener('click', ()=>{
       document.getElementById('privatePhotoToggle').checked = !!currentUser.photoPrivate;
       openModal('photoSettingsOverlay');
     });
   } else {
     out.style.display='flex'; inEl.style.display='none';
+    if(heroBtn) heroBtn.style.display='inline-flex';
   }
 }
 function doLogout(){
@@ -967,6 +1172,39 @@ document.getElementById('privatePhotoToggle').addEventListener('change', (e)=>{
   persistCurrentUser();
   toast(e.target.checked ? 'Your photo is now private.' : 'Your photo is now public.', 'success');
   renderMatches(); renderNewMatches();
+});
+
+/* ---------- Edit Profile & Privacy Settings ---------- */
+function openEditProfileModal(){
+  if(!currentUser) return;
+  const form = document.getElementById('editProfileForm');
+  const fields = ['name','gender','age','maritalStatus','email','mobile','religion','height','weight','bodyType',
+    'complexion','motherTongue','caste','subCaste','gothram','disability','rasi','nakshatram','lagnam','sevvaiDosham',
+    'state','district','education','occupation','income','eating','drinking','smoking'];
+  fields.forEach(f=>{
+    const el = form.elements[f];
+    if(el) el.value = currentUser[f] || '';
+  });
+  const photoCheckbox = form.elements['photoPrivate'];
+  if(photoCheckbox) photoCheckbox.checked = !!currentUser.photoPrivate;
+  openModal('editProfileOverlay');
+}
+document.getElementById('editProfileForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  if(!currentUser) return;
+  const fd = new FormData(e.target);
+  for(const [k,v] of fd.entries()){
+    if(k==='photoPrivate') continue;
+    currentUser[k] = v;
+  }
+  currentUser.age = parseInt(currentUser.age);
+  currentUser.photoPrivate = fd.get('photoPrivate') === 'on';
+  if(!currentUser.disability) currentUser.disability = 'Not Specified';
+  persistCurrentUser();
+  closeModal('editProfileOverlay');
+  toast('Profile updated successfully.', 'success');
+  refreshHeader();
+  openFullProfile(currentUser.id);
 });
 
 /* ---------- Admin Login ---------- */
@@ -1029,21 +1267,23 @@ function populateFilterOptions(){
   fillSelect('fReligion', religions);
   fillSelect('fCaste', castes);
   fillSelect('fDistrict', districts);
+  fillSelect('fState', STATE_LIST, true);
 }
-function fillSelect(id, values){
+function fillSelect(id, values, skipSort){
   const sel = document.getElementById(id);
   const current = sel.value;
   sel.innerHTML = sel.options[0].outerHTML;
-  values.sort().forEach(v=>{
+  const list = skipSort ? values : [...values].sort();
+  list.forEach(v=>{
     const o = document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o);
   });
   sel.value = current;
 }
-['fGender','fReligion','fCaste','fDistrict','fAgeMin','fAgeMax'].forEach(id=>{
+['fGender','fReligion','fCaste','fState','fDistrict','fAgeMin','fAgeMax'].forEach(id=>{
   document.getElementById(id).addEventListener('input', renderMatches);
 });
 document.getElementById('clearFilters').addEventListener('click', ()=>{
-  ['fGender','fReligion','fCaste','fDistrict','fAgeMin','fAgeMax'].forEach(id=>document.getElementById(id).value='');
+  ['fGender','fReligion','fCaste','fState','fDistrict','fAgeMin','fAgeMax'].forEach(id=>document.getElementById(id).value='');
   renderMatches();
 });
 
@@ -1052,12 +1292,14 @@ function getFilteredProfiles(){
   const gender = document.getElementById('fGender').value;
   const religion = document.getElementById('fReligion').value;
   const caste = document.getElementById('fCaste').value;
+  const state = document.getElementById('fState').value;
   const district = document.getElementById('fDistrict').value;
   const ageMin = document.getElementById('fAgeMin').value;
   const ageMax = document.getElementById('fAgeMax').value;
   if(gender) list = list.filter(p=>p.gender===gender);
   if(religion) list = list.filter(p=>p.religion===religion);
   if(caste) list = list.filter(p=>p.caste===caste);
+  if(state) list = list.filter(p=>p.state===state);
   if(district) list = list.filter(p=>p.district===district);
   if(ageMin) list = list.filter(p=>p.age>=parseInt(ageMin));
   if(ageMax) list = list.filter(p=>p.age<=parseInt(ageMax));
@@ -1267,7 +1509,7 @@ function openFullProfile(id){
   ];
   const horo = [['Rasi', p.rasi], ['Nakshatram', p.nakshatram], ['Lagnam', p.lagnam], ['Sevvai Dosham', p.sevvaiDosham]];
   const life = [
-    ['District / City', p.district], ['Education', p.education], ['Occupation', p.occupation], ['Annual Income', p.income],
+    ['State', p.state], ['District / City', p.district], ['Education', p.education], ['Occupation', p.occupation], ['Annual Income', p.income],
     ['Eating Habits', p.eating], ['Drinking Habits', p.drinking], ['Smoking Habits', p.smoking], ['Profile Created By', p.createdBy]
   ];
 
@@ -1286,9 +1528,14 @@ function openFullProfile(id){
           <div class="fp-tagline">${p.occupation||''} ${p.district ? '· '+p.district : ''}</div>
         </div>
         <div class="fp-hero-actions">
-          <button class="btn btn-gold btn-sm" onclick="sendInterest('${p.id}')">Send Interest ❤️</button>
-          <button class="btn btn-outline btn-sm" style="background:rgba(255,255,255,.15); color:#fff; border-color:#fff;" onclick="toggleShortlist('${p.id}')">Shortlist ⭐</button>
-          <button class="btn btn-outline btn-sm" style="background:rgba(255,255,255,.15); color:#fff; border-color:#fff;" data-page="matches">Close ✕</button>
+          ${ (currentUser && currentUser.id===p.id) ? `
+            <button class="btn btn-gold btn-sm" onclick="openEditProfileModal()">Edit Profile &amp; Privacy Settings</button>
+            <button class="btn btn-outline btn-sm" style="background:rgba(255,255,255,.15); color:#fff; border-color:#fff;" data-page="matches">Back to Matches</button>
+          ` : `
+            <button class="btn btn-gold btn-sm" onclick="sendInterest('${p.id}')">Send Interest ❤️</button>
+            <button class="btn btn-outline btn-sm" style="background:rgba(255,255,255,.15); color:#fff; border-color:#fff;" onclick="toggleShortlist('${p.id}')">Shortlist ⭐</button>
+            <button class="btn btn-outline btn-sm" style="background:rgba(255,255,255,.15); color:#fff; border-color:#fff;" data-page="matches">Close ✕</button>
+          `}
         </div>
       </div>
       <div class="fp-body">
@@ -1486,7 +1733,10 @@ function renderAdminTabContent(){
         <td>${p.religion}${p.caste && p.caste!=='-' ? ' · '+p.caste : ''}</td>
         <td><span class="plan-tag plan-${p.plan||'Free'}">${p.plan||'Free'}</span></td>
         <td>${p.photoPrivate ? '🔒 Private' : '🌐 Public'}</td>
-        <td><button class="btn btn-sm btn-outline" onclick="adminDeleteProfile('${p.id}')">Remove</button></td>
+        <td>
+          <button class="btn btn-sm btn-primary" onclick="openAdminEditModal('${p.id}')">Full Edit</button>
+          <button class="btn btn-sm btn-outline" onclick="adminDeleteProfile('${p.id}')">Remove</button>
+        </td>
       </tr>`).join('')}
     </tbody></table>`;
   }
@@ -1519,6 +1769,40 @@ function adminDeleteProfile(id){
   toast('Profile removed.', 'info');
   renderAdmin();
 }
+/* ---------- Admin: Full Edit Profile ---------- */
+function openAdminEditModal(id){
+  const p = allProfiles.find(u=>u.id===id);
+  if(!p) return;
+  const form = document.getElementById('adminEditForm');
+  form.dataset.editingId = id;
+  const fields = ['name','age','gender','email','mobile','religion','caste','maritalStatus'];
+  fields.forEach(f=>{
+    const el = form.elements[f];
+    if(el) el.value = p[f] || '';
+  });
+  document.getElementById('adminEditModalId').textContent = p.id;
+  openModal('adminEditOverlay');
+}
+document.getElementById('adminEditForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const form = e.target;
+  const id = form.dataset.editingId;
+  let users = loadUsers();
+  const idx = users.findIndex(u=>u.id===id);
+  if(idx===-1){ toast('Profile not found.', 'error'); return; }
+  const fd = new FormData(form);
+  const fields = ['name','age','gender','email','mobile','religion','caste','maritalStatus'];
+  fields.forEach(f=>{
+    if(fd.has(f)) users[idx][f] = fd.get(f);
+  });
+  users[idx].age = parseInt(users[idx].age);
+  saveUsers(users);
+  allProfiles = users;
+  if(currentUser && currentUser.id===id) currentUser = users[idx];
+  closeModal('adminEditOverlay');
+  toast('Profile ' + id + ' updated by admin.', 'success');
+  renderAdmin();
+});
 function adminVerifyPhoto(id){
   let users = loadUsers();
   const idx = users.findIndex(u=>u.id===id);
@@ -1543,6 +1827,7 @@ function adminApproveSub(subId){
 /* ---------- Init ---------- */
 function init(){
   initSeed();
+  populateStateSelects();
   const savedId = localStorage.getItem(LS.current);
   if(savedId){ const u = loadUsers().find(x=>x.id===savedId); if(u) currentUser = u; }
   if(localStorage.getItem(LS.admin)==='1'){ isAdmin = true; showAdminNavEntry(); }
